@@ -67,16 +67,28 @@ if (modoCluster && cluster.isPrimary) {
   
   //CONEXION A DB MONGO
   
+  // app.use(session({
+  //     secret: 'STRING_TO_SIGN_SESSION_ID',
+  //     resave: false,
+  //     saveUninitialized: true,
+  //     store: new MongoStore({
+  //       mongoUrl: 'mongodb+srv://andres:Dorian23@cluster0.ohq5xhd.mongodb.net/ecommerce?retryWrites=true&w=majority',
+  //       retries: 0,
+  //       ttl: 10 * 60 , // 10 min
+  //     }),
+  //   })
+  // );
+
   app.use(session({
-      secret: 'STRING_TO_SIGN_SESSION_ID',
-      resave: false,
-      saveUninitialized: true,
-      store: new MongoStore({
-        mongoUrl: 'mongodb+srv://andres:Dorian23@cluster0.ohq5xhd.mongodb.net/ecommerce?retryWrites=true&w=majority',
-        retries: 0,
-        ttl: 10 * 60 , // 10 min
-      }),
-    })
+    secret: 'TanatosAlado',
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongoUrl:process.env.URL_BD,
+      retries: 0,
+      ttl: 10 * 60 , // 10 min
+    }),
+  })
   );
   
   

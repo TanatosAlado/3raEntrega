@@ -69,7 +69,8 @@ module.exports=class CartMongoController {
                 throw new Error('No existe el carrito');
             }
         } catch {
-            throw new Error('Error pidiendo los datos');
+            logger.log("error", "Acceso a carrito vacío")
+            // throw new Error('Error pidiendo los datos');
         }
     }
 
