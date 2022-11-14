@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const { db } = require("../schema/schemaUser");
 
 
 const {
@@ -65,23 +66,26 @@ module.exports=class CartMongoController {
                 }
             )
         } catch (error) {
-            console.log(error);
-            throw new Error('Error adding product');
+            logger.log("error",err)
         }
     }
 
 
     getById = async (id) => {
         try {
+            const countCart= await db.collection("carts").countDocuments();
             const cart = await this.collection.findOne({ id: id });
-            const products = cart?.productos;
-            if (products) {
-                return products;
-            } else {
-                throw new Error('No existe el carrito');
+            if (countCart!=0){
+                const products = cart?.productos;
+                if (products) {
+                    return products;
+                }    else {
+                    throw new Error('No existe el carrito');
+                }
             }
-        } catch (error) {
-            logger.log("error", error)
+        
+        }     catch(err) {
+            logger.log("error",err)
         }
     }
 
@@ -110,7 +114,7 @@ module.exports=class CartMongoController {
                 return false
             }
         } catch {
-            throw new Error('Error borrando el producto')
+            logger.log("error",err)
         }
     }
 

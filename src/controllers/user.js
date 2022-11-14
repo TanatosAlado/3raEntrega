@@ -97,18 +97,18 @@ passport.use("signup", new LocalStrategy({
      
  
   
-  async function send(user) {
-    try {
-      await transporter.sendMail({
-        to:"retete2854@sopulit.com",
-        from:"iva12@ethereal.email",
-        subject:"Nuevo Usuario Registrado",
-        html:`${user}`
-    });
-    } catch (err) {
-      console.log(err);
+    async function sendMailUser(user) {
+      try {
+        await transporter.sendMail({
+          to:"retete2854@sopulit.com",
+          from:"iva12@ethereal.email",
+          subject:"Nuevo Usuario Registrado",
+          html:`${user}`
+      });
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
   // MANDAR MAIL AL CREAR USUARIO NUEVO
 
   const transporter = nodemailer.createTransport({

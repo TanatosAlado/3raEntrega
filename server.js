@@ -231,10 +231,10 @@ app.get('/buyCart', async(req, res) => {
       logger.log("info",`Ingreso a la ruta${req.url}`)
     });
 
-    app.get("/buySuccesfull", (req, res) => {
-      res.sendFile(__dirname + "/views/buyCart.html");
-      logger.log("info",`Ingreso a la ruta${req.url}`)
-    });
+    // app.get("/buySuccesfull", (req, res) => {
+    //   res.sendFile(__dirname + "/views/buyCart.html");
+    //   logger.log("info",`Ingreso a la ruta${req.url}`)
+    // });
 
 //----------------------------------------------------------
   

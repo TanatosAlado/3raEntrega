@@ -55,12 +55,9 @@ const getMsjs = async () => {
         const mensajes = await msjModel.find();
         return normalizeMsj(mensajes);
     } catch (error) {
-        throw new Error(error);
+        logger.log("error",err)
     }
 }
-
-
-module.exports={saveMsjs,getMsjs}
 
 
 //MENSAJES SMS CON TWILIO

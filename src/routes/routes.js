@@ -1,5 +1,4 @@
 const {Router}=require("express");
-const {createFakeProducts}=require("../controllers/products.js")
 const {productoDao, cartDao,userDao}= require("../dao/index.js")
 const { db } = require("../schema/schemaProducts.js");
 
