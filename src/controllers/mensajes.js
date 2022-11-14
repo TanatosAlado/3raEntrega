@@ -115,14 +115,14 @@ async function sendWhatsapp(name,mail) {
         logger.log("error",err)
       }
     }
-    const transporter = nodemailer.createTransport({
-        service:"gmail",
-        host: 'smtp.gmail.email',
-        port: 587,
-        auth: {
-            user: 'andreshosch11@gmail.com',
-            pass: "pripxpboynmzhqev"
-        }
-      });
+    // const transporter = nodemailer.createTransport({
+    //     service:"gmail",
+    //     host: 'smtp.gmail.email',
+    //     port: 587,
+    //     auth: {
+    //         user: 'andreshosch11@gmail.com',
+    //         pass: "pripxpboynmzhqev"
+    //     }
+    //   });
 
       module.exports={saveMsjs,getMsjs,sendMail,sendSms,sendWhatsapp,deleteCartBuy}
