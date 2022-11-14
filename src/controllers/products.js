@@ -22,6 +22,7 @@ module.exports=class ProdMongoController {
             const result = await newElement.save();
             return result;
         } catch (error) {
+            logger.log("error","error al grabar productos")
             throw new Error(error);
         }
     }
@@ -30,6 +31,7 @@ module.exports=class ProdMongoController {
         try {
             return await this.collection.find();
         } catch (error) {
+            logger.log("error","error al mostrar productos")
             throw new Error(error);
         }
     }
@@ -38,6 +40,7 @@ module.exports=class ProdMongoController {
         try {
             return await this.collection.findById({ _id: id });
         } catch (error) {
+            logger.log("error","error al buscar un producto")
             throw new Error(error);
         }
     }
@@ -46,6 +49,7 @@ module.exports=class ProdMongoController {
         try {
             return await this.collection.findByIdAndUpdate({ _id: id }, element);
         } catch (error) {
+            logger.log("error","error al actualizar productos")
             throw new Error(error);
         }
     }
@@ -54,6 +58,7 @@ module.exports=class ProdMongoController {
         try {
             return await this.collection.findByIdAndDelete({ _id: id });
         } catch (error) {
+            logger.log("error","error al borrar un producto")
             throw new Error(error);
         }
     }
@@ -62,6 +67,7 @@ module.exports=class ProdMongoController {
         try {
             return await this.collection.deleteMany({});
         } catch (error) {
+            logger.log("error","error al borrar todos los productos")
             throw new Error(error);
         }
     }

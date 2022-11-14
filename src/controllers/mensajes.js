@@ -16,8 +16,6 @@ const logger = NODE_ENV === "production"
 
 
 
-
-
 try {
     mongoose.connect(config.mongoDb.url, config.mongoDb.options)
 } catch (error) {
@@ -63,7 +61,7 @@ const getMsjs = async () => {
 //MENSAJES SMS CON TWILIO
 
 const accountSid = 'ACb1200a8e555e9b41c8ec2323345c9a71'; 
-const authToken = '8964959b32cf62aa1d6e74632672d70f'; 
+const authToken = '9108c04775caa79108d16402618d5d1b'; 
 const client = twilio(accountSid, authToken); 
 
 async function sendSms() {
@@ -97,8 +95,8 @@ async function sendWhatsapp(name,mail) {
   async function sendMail(name,mail,listCart) {
     try {
         await transporter.sendMail({
-          to:"retete2854@sopulit.com",
-          from:"iva12@ethereal.email",
+          to:"topesox325@lance7.com",
+          from:"jovanny.goldner@ethereal.email",
           subject:`nuevo pedido de Nombre: ${name} Mail: ${mail}`,
           html:`${listCart}`
       });
@@ -115,14 +113,14 @@ async function sendWhatsapp(name,mail) {
         logger.log("error",err)
       }
     }
-    // const transporter = nodemailer.createTransport({
-    //     service:"gmail",
-    //     host: 'smtp.gmail.email',
-    //     port: 587,
-    //     auth: {
-    //         user: 'andreshosch11@gmail.com',
-    //         pass: "pripxpboynmzhqev"
-    //     }
-    //   });
+    const transporter = nodemailer.createTransport({
+        service:"gmail",
+        host: 'smtp.gmail.email',
+        port: 587,
+        auth: {
+            user: 'cybernanox@gmail.com',
+            pass: "itvptxxbnvqeudhn"
+        }
+      });
 
       module.exports={saveMsjs,getMsjs,sendMail,sendSms,sendWhatsapp,deleteCartBuy}

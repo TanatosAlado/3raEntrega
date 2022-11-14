@@ -3,7 +3,6 @@ const express=require("express");
 const{Server:http}=require ("http");
 const {Server:ioServer}=require ("socket.io");
 const User=require("./src/schema/schemaUser.js")
-const {saveMsjs, getMsjs}=require ("./src/controllers/mensajes.js")
 const session =require("express-session")
 const MongoStore=require("connect-mongo");
 const LocalStrategy = require('passport-local').Strategy;
@@ -11,7 +10,7 @@ const passport = require("passport");
 const { comparePassword, hashPassword } = require("./utils")
 // const {connect} = require('./src/config/dbConfig.js');
 const { Types } = require("mongoose");
-
+const {saveMsjs, getMsjs, sendWhatsapp, sendMail, sendSms,deleteCartBuy}=require ("./src/controllers/mensajes.js")
 const nodemailer= require('nodemailer');
 const { argv0 } = require("process");
 const { db } = require("./src/schema/schemaProducts.js");
@@ -124,10 +123,12 @@ if (modoCluster && cluster.isPrimary) {
       try{
           if (req.session.user){
              res.sendFile(__dirname + ('/public/index.html'))
+             logger.log("info",`Ingreso a la ruta${req.url}`)
           }
           else
           {
               res.sendFile(__dirname + ('/views/login.html'))
+              logger.log("info",`Ingreso a la ruta${req.url}`)
           }
       }
       catch (error){
@@ -154,6 +155,7 @@ if (modoCluster && cluster.isPrimary) {
                   console.log(err);
               } else {
                   res.redirect('/logout');
+                  logger.log("info",`Ingreso a la ruta${req.url}`)
               }
           })
       } catch (err) {
@@ -163,6 +165,7 @@ if (modoCluster && cluster.isPrimary) {
   app.get('/logoutMsj', (req, res) => {
       try {
           res.sendFile(__dirname + '/views/logout.html');
+          logger.log("info",`Ingreso a la ruta${req.url}`)
       }
       catch (err) {
           console.log(err);
@@ -179,6 +182,7 @@ app.get('/buyCart', async(req, res) => {
   process.env.phone=req.user.phone
   // const idProductos=process.env.id
    const id=parseInt( process.env.id)
+
   const productos=await db.collection("carts").findOne({id:id})
   console.log(productos)
   const mail = process.env.USER;
@@ -188,7 +192,7 @@ app.get('/buyCart', async(req, res) => {
        sendMail(name,mail,JSON.stringify(productos))
        sendSms(phone)
        deleteCartBuy(id)
-  res.redirect("/buySuccesfull")
+  res.redirect("/buySuccessfull")
   logger.log("info",`Ingreso a la ruta${req.url}`)
   
 
@@ -206,35 +210,35 @@ app.get('/buyCart', async(req, res) => {
    
     app.get("/login", (req, res) => {
       res.sendFile(__dirname + "/views/login.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
     });
   
     app.get("/signup", (req, res) => {
       res.sendFile(__dirname + "/views/register.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
     });
   
     app.get("/loginFail", (req, res) => {
       res.sendFile(__dirname + "/views/loginFail.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
     });
   
     app.get("/signupFail", (req, res) => {
       res.sendFile(__dirname + "/views/signupFail.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
     });
     app.get("/cart", (req, res) => {
       res.sendFile(__dirname + "/views/cart.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
     });
   
 
 //---------------------------------------------------------
 
-    app.get("/buySucessful", (req, res) => {
+    app.get("/buySuccessfull", (req, res) => {
       res.sendFile(__dirname + "/views/buyCart.html");
       logger.log("info",`Ingreso a la ruta${req.url}`)
     });
-
-    // app.get("/buySuccesfull", (req, res) => {
-    //   res.sendFile(__dirname + "/views/buyCart.html");
-    //   logger.log("info",`Ingreso a la ruta${req.url}`)
-    // });
 
 //----------------------------------------------------------
   

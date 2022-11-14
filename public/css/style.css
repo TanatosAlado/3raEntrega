@@ -10,8 +10,13 @@ table,
 }
 
 .background_table {
-    background-color: lightyellow;
+    background-color: lightgrey;
 }
+
+.background_bienvenida{
+    background-color: lightgrey;
+}
+
 .contenedor{
     display: flex;
     flex-direction: row;
