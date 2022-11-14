@@ -1,26 +1,13 @@
-
 const {Router}=require("express");
 const {createFakeProducts}=require("../controllers/products.js")
 const {productoDao, cartDao,userDao}= require("../dao/index.js")
+const { db } = require("../schema/schemaProducts.js");
 
 const routerProducto = Router();
 const routerCarrito = Router();
 
 const productos=new productoDao;
 const carrito=new cartDao;
-
-
-// routerProducto.
-//     route('/productos-test')
-//     .get(async (req, res) => {
-
-//         const products = await createFakeProducts();
-//         if (products.length > 0) {
-//             res.status(200).json(products);
-//         } else {
-//             res.status(404).send({ message: "Productos no encontrado" });
-//         }
-//     }
 
 routerProducto.
 route('/:id?')
@@ -75,6 +62,7 @@ route('/:id?')
         res.status(404).json({ error: 'No existe producto con dicho ID' });
     }
 })
+
     routerCarrito.
     route('/')
     .post(async (req, res) => {
@@ -93,20 +81,22 @@ route('/:id?')
         } else {
             res.status(404).send({ message: "Carrito no encontrado" });
         }
-
     })
 
     routerCarrito.
     route('/:id/productos')
     .get(async (req, res) => {
-        const products = await carrito.getById(req.params.id);
-        if (products.length > 0) {
-            res.status(200).json(products);
-        } else {
-            res.status(404).send({ message: "Carrito no encontrado" });
+        const counterCart = await db.collection("carts").countDocuments();
+        if (counterCart > 1){
+            const products = await carrito.getById(req.params.id);
+            if (products.length > 0) {
+                res.status(200).json(products);
+            } else {
+                res.status(404).send({ message: "Carrito no encontrado" });
+            }
         }
-
     })
+
     .post((req, res) => {
         const producto = carrito.addProduct(req.params.id, req.body);
         if (producto) {

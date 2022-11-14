@@ -65,19 +65,6 @@ if (modoCluster && cluster.isPrimary) {
   app.use('/api/productos', routerProducto);
   app.use('/api/carritos', routerCarrito);
   
-  //CONEXION A DB MONGO
-  
-  // app.use(session({
-  //     secret: 'STRING_TO_SIGN_SESSION_ID',
-  //     resave: false,
-  //     saveUninitialized: true,
-  //     store: new MongoStore({
-  //       mongoUrl: 'mongodb+srv://andres:Dorian23@cluster0.ohq5xhd.mongodb.net/ecommerce?retryWrites=true&w=majority',
-  //       retries: 0,
-  //       ttl: 10 * 60 , // 10 min
-  //     }),
-  //   })
-  // );
 
   app.use(session({
     secret: 'TanatosAlado',
@@ -86,7 +73,7 @@ if (modoCluster && cluster.isPrimary) {
     store: new MongoStore({
       mongoUrl:process.env.URL_BD,
       retries: 0,
-      ttl: 10 * 60 , // 10 min
+      ttl: 10 * 60 ,
     }),
   })
   );
@@ -181,6 +168,41 @@ if (modoCluster && cluster.isPrimary) {
           console.log(err);
       }
   })
+
+//-------------------------------
+
+app.get('/buyCart', async(req, res) => {
+  try{
+  process.env.USER=req.user.mail;
+  process.env.id=req.user.id;
+  process.env.name=req.user.name
+  process.env.phone=req.user.phone
+  // const idProductos=process.env.id
+   const id=parseInt( process.env.id)
+  const productos=await db.collection("carts").findOne({id:id})
+  console.log(productos)
+  const mail = process.env.USER;
+  const phone=process.env.phone
+  const name= process.env.name
+       sendWhatsapp(name,mail)
+       sendMail(name,mail,JSON.stringify(productos))
+       sendSms(phone)
+       deleteCartBuy(id)
+  res.redirect("/buySuccesfull")
+  logger.log("info",`Ingreso a la ruta${req.url}`)
+  
+
+   }
+  catch(err){
+    console.log(err)
+  }
+})
+
+//-------------------------------
+
+
+
+
    
     app.get("/login", (req, res) => {
       res.sendFile(__dirname + "/views/login.html");
@@ -201,7 +223,20 @@ if (modoCluster && cluster.isPrimary) {
       res.sendFile(__dirname + "/views/cart.html");
     });
   
-  
+
+//---------------------------------------------------------
+
+    app.get("/buySucessful", (req, res) => {
+      res.sendFile(__dirname + "/views/buyCart.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
+    });
+
+    app.get("/buySuccesfull", (req, res) => {
+      res.sendFile(__dirname + "/views/buyCart.html");
+      logger.log("info",`Ingreso a la ruta${req.url}`)
+    });
+
+//----------------------------------------------------------
   
     app.post("/signup", passport.authenticate("signup", {
       failureRedirect: "/signupFail",
@@ -217,6 +252,10 @@ if (modoCluster && cluster.isPrimary) {
         res.redirect('/');
     });
   
+    app.get("*", (req, res) => {
+      logger.log("warn",`Ruta no encontrada ${req.url}`)
+      res.status(400).send(`Ruta no encontrada ${req.url}`);
+    });
   
     const PORT = process.env.PORT || 8080;
   

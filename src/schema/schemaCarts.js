@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const cartSchema = new Schema({
-            id: { type: Number, required: true },
-	        timestamp: { type: Number},
-	        productos: { type: Array },
+    id: { type: Number, required: true },
+	timestamp: { type: Number},
+	productos: { type: Array },
 });
 
 

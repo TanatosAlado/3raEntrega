@@ -96,7 +96,7 @@ fetch ("/loginEnv")
  .then (data=>{
     userName=data.user;
     avatar=data.avatar;
-    document.getElementById("userName").innerHTML=`<div class="titleLogin">Bienvenid@ ${userName} </div>
+    document.getElementById("userName").innerHTML=`<div class="titleLogin">Bendita Barrica te estaba esperando ${userName} </div>
     <div class="avatar"><img src=${avatar} class="avatar"></img></div>`
  })
  .catch(error=>console.log(error))
@@ -107,7 +107,7 @@ fetch ("/idCart")
     userName=data.user;
     avatar=data.avatar;
     id=data.id;
-    document.getElementById("userName").innerHTML=`<div class="titleLogin">Bienvenid@ ${userName} </div>
+    document.getElementById("userName").innerHTML=`<div class="titleLogin">Bendita Barrica te estaba esperando ${userName} </div>
     <div class="avatar"><img src=${avatar} class="avatar"></img></div>`
     .then(fetch(`/api/carritos/${id}/productos`)
     .then(response => response.json())

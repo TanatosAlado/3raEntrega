@@ -1,5 +1,17 @@
 const mongoose=require("mongoose")
 
+
+const {
+    loggerDev,
+    loggerProd
+  } = require("../../logger_config");
+  
+  const NODE_ENV = process.env.NODE_ENV || "development";
+  const logger = NODE_ENV === "production"
+  ? loggerProd
+  : loggerDev
+  
+
 module.exports=class CartMongoController {
     constructor(collection,schema) {
         this.collection = mongoose.model(collection, schema);
@@ -68,9 +80,8 @@ module.exports=class CartMongoController {
             } else {
                 throw new Error('No existe el carrito');
             }
-        } catch {
-            logger.log("error", "Acceso a carrito vacío")
-            // throw new Error('Error pidiendo los datos');
+        } catch (error) {
+            logger.log("error", error)
         }
     }
 
