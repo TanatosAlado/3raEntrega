@@ -1,13 +1,19 @@
 const express=require("express");
- const {routerProducto,routerCarrito}=require("./src/routes/routes.js")
+
+// const {routerProducto,routerCarrito}=require("./src/routes/routes.js")
+const {routerProducto} = require("./src/routes/productos")
+const {routerCarrito} = require("./src/routes/carros")
+const {routerUsuario} = require("./src/routes/usuarios")
+
+
 const{Server:http}=require ("http");
 const {Server:ioServer}=require ("socket.io");
 const User=require("./src/schema/schemaUser.js")
-const session =require("express-session")
-const MongoStore=require("connect-mongo");
+// const session =require("express-session")
+// const MongoStore=require("connect-mongo");
 const LocalStrategy = require('passport-local').Strategy;
-const passport = require("passport");
-const { comparePassword, hashPassword } = require("./utils")
+// const passport = require("passport");
+// const { comparePassword, hashPassword } = require("./utils")
 // const {connect} = require('./src/config/dbConfig.js');
 const { Types } = require("mongoose");
 const {saveMsjs, getMsjs, sendWhatsapp, sendMail, sendSms,deleteCartBuy}=require ("./src/controllers/mensajes.js")
@@ -64,34 +70,37 @@ if (modoCluster && cluster.isPrimary) {
   app.use('/api/productos', routerProducto);
   app.use('/api/carritos', routerCarrito);
   
+  app.use('/', routerUsuario);
+  
+  
 
-  app.use(session({
-    secret: 'TanatosAlado',
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongoUrl:process.env.URL_BD,
-      retries: 0,
-      ttl: 10 * 60 ,
-    }),
-  })
-  );
+  // app.use(session({
+  //   secret: 'TanatosAlado',
+  //   resave: false,
+  //   saveUninitialized: true,
+  //   store: new MongoStore({
+  //     mongoUrl:process.env.URL_BD,
+  //     retries: 0,
+  //     ttl: 10 * 60 ,
+  //   }),
+  // })
+  // );
   
   
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.initialize());
+  // app.use(passport.session());
   
-   //   //RECUPERO EL NOMBRE YA EN SESION INICIADA
-   app.get('/loginEnv', (req, res) => {
-    process.env.USER=req.user.name;
-    process.env.avatar=req.user.avatar;
-    const user = process.env.USER;
-    const avatar=process.env.avatar;
-    res.send({
-        user,avatar
-    })
+  //  //   //RECUPERO EL NOMBRE YA EN SESION INICIADA
+  //  app.get('/loginEnv', (req, res) => {
+  //   process.env.USER=req.user.name;
+  //   process.env.avatar=req.user.avatar;
+  //   const user = process.env.USER;
+  //   const avatar=process.env.avatar;
+  //   res.send({
+  //       user,avatar
+  //   })
     
-  })
+  // })
   
   
    //   //RECUPEROel ID DeL CARRO EN SECION INICIADA
@@ -109,14 +118,14 @@ if (modoCluster && cluster.isPrimary) {
   })
   
   
-  //RECUPERO EL NOMBRE YA EN SESION INICIADA
-  app.get('/getUserNameEnv', (req, res) => {
-    const user = process.env.USER;
+  // //RECUPERO EL NOMBRE YA EN SESION INICIADA
+  // app.get('/getUserNameEnv', (req, res) => {
+  //   const user = process.env.USER;
     
-      res.send({
-        user
-    })
-  })
+  //     res.send({
+  //       user
+  //   })
+  // })
   
   app.get("/", (req,res)=>{
   
@@ -148,29 +157,29 @@ if (modoCluster && cluster.isPrimary) {
   
   // // DESLOGUEO DE USUARIO
   
-  app.get('/logout', (req, res) => {
-      try {
-          req.session.destroy((err) => {
-              if (err) {
-                  console.log(err);
-              } else {
-                  res.redirect('/logout');
-                  logger.log("info",`Ingreso a la ruta${req.url}`)
-              }
-          })
-      } catch (err) {
-          console.log(err);
-      }
-  })
-  app.get('/logoutMsj', (req, res) => {
-      try {
-          res.sendFile(__dirname + '/views/logout.html');
-          logger.log("info",`Ingreso a la ruta${req.url}`)
-      }
-      catch (err) {
-          console.log(err);
-      }
-  })
+  // app.get('/logout', (req, res) => {
+  //     try {
+  //         req.session.destroy((err) => {
+  //             if (err) {
+  //                 console.log(err);
+  //             } else {
+  //                 res.redirect('/logout');
+  //                 logger.log("info",`Ingreso a la ruta${req.url}`)
+  //             }
+  //         })
+  //     } catch (err) {
+  //         console.log(err);
+  //     }
+  // })
+  // app.get('/logoutMsj', (req, res) => {
+  //     try {
+  //         res.sendFile(__dirname + '/views/logout.html');
+  //         logger.log("info",`Ingreso a la ruta${req.url}`)
+  //     }
+  //     catch (err) {
+  //         console.log(err);
+  //     }
+  // })
 
 //-------------------------------
 
@@ -184,7 +193,7 @@ app.get('/buyCart', async(req, res) => {
    const id=parseInt( process.env.id)
 
   const productos=await db.collection("carts").findOne({id:id})
-  console.log(productos)
+
   const mail = process.env.USER;
   const phone=process.env.phone
   const name= process.env.name
@@ -208,29 +217,29 @@ app.get('/buyCart', async(req, res) => {
 
 
    
-    app.get("/login", (req, res) => {
-      res.sendFile(__dirname + "/views/login.html");
-      logger.log("info",`Ingreso a la ruta${req.url}`)
-    });
+    // app.get("/login", (req, res) => {
+    //   res.sendFile(__dirname + "/views/login.html");
+    //   logger.log("info",`Ingreso a la ruta${req.url}`)
+    // });
   
-    app.get("/signup", (req, res) => {
-      res.sendFile(__dirname + "/views/register.html");
-      logger.log("info",`Ingreso a la ruta${req.url}`)
-    });
+    // app.get("/signup", (req, res) => {
+    //   res.sendFile(__dirname + "/views/register.html");
+    //   logger.log("info",`Ingreso a la ruta${req.url}`)
+    // });
   
-    app.get("/loginFail", (req, res) => {
-      res.sendFile(__dirname + "/views/loginFail.html");
-      logger.log("info",`Ingreso a la ruta${req.url}`)
-    });
+    // app.get("/loginFail", (req, res) => {
+    //   res.sendFile(__dirname + "/views/loginFail.html");
+    //   logger.log("info",`Ingreso a la ruta${req.url}`)
+    // });
   
-    app.get("/signupFail", (req, res) => {
-      res.sendFile(__dirname + "/views/signupFail.html");
-      logger.log("info",`Ingreso a la ruta${req.url}`)
-    });
-    app.get("/cart", (req, res) => {
-      res.sendFile(__dirname + "/views/cart.html");
-      logger.log("info",`Ingreso a la ruta${req.url}`)
-    });
+    // app.get("/signupFail", (req, res) => {
+    //   res.sendFile(__dirname + "/views/signupFail.html");
+    //   logger.log("info",`Ingreso a la ruta${req.url}`)
+    // });
+    // app.get("/cart", (req, res) => {
+    //   res.sendFile(__dirname + "/views/cart.html");
+    //   logger.log("info",`Ingreso a la ruta${req.url}`)
+    // });
   
 
 //---------------------------------------------------------
@@ -242,24 +251,24 @@ app.get('/buyCart', async(req, res) => {
 
 //----------------------------------------------------------
   
-    app.post("/signup", passport.authenticate("signup", {
-      failureRedirect: "/signupFail",
-    }) , (req, res) => {  
-      req.session.user = req.user;
-      res.redirect("/login");
-    });
+    // app.post("/signup", passport.authenticate("signup", {
+    //   failureRedirect: "/signupFail",
+    // }) , (req, res) => {  
+    //   req.session.user = req.user;
+    //   res.redirect("/login");
+    // });
     
-    app.post("/login", passport.authenticate("login", {
-      failureRedirect: "/loginFail",
-    }) ,(req, res) => {
-        req.session.user = req.user;
-        res.redirect('/');
-    });
+    // app.post("/login", passport.authenticate("login", {
+    //   failureRedirect: "/loginFail",
+    // }) ,(req, res) => {
+    //     req.session.user = req.user;
+    //     res.redirect('/');
+    // });
   
-    app.get("*", (req, res) => {
-      logger.log("warn",`Ruta no encontrada ${req.url}`)
-      res.status(400).send(`Ruta no encontrada ${req.url}`);
-    });
+    // app.get("*", (req, res) => {
+    //   logger.log("warn",`Ruta no encontrada ${req.url}`)
+    //   res.status(400).send(`Ruta no encontrada ${req.url}`);
+    // });
   
     const PORT = process.env.PORT || 8080;
   

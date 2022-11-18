@@ -43,6 +43,18 @@ passport.use("login", new LocalStrategy(async (mail, password, done) => {
    return done(null, user);
  }));
 
+
+ function loginControl(req, res){  
+  req.session.user = req.user;
+  res.render(path.resolve("views/pages/profile"),{status:'ok', user: req.session.user});
+};
+
+// routerUsuario.get("/login", (req, res) => {
+// res.sendFile(__dirname + "/views/login.html");
+// logger.log("info",`Ingreso a la ruta${req.url}`)
+// });
+
+
  //REGISTRO DE USUARIO
  passport.use("signup", new LocalStrategy({
   passReqToCallback: true
@@ -121,4 +133,7 @@ else{
     }
   });
   
-  
+
+  module.exports={
+    loginControl
+  }
