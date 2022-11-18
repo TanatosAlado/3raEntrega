@@ -128,7 +128,7 @@ else{
     host: 'smtp.gmail.email',
     port: 587,
     auth: {
-        user: 'andreshosch114@gmail.com',
+        user: 'cybernanox@gmail.com',
         pass: "pripxpboynmzhqev"
     }
   });
