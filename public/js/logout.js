@@ -3,7 +3,7 @@ fetch ("/getUserNameEnv")
 .then(response => response.json())
  .then (data=>{
     userName=data.user;
-    console.log(userName)
+    console.log(`Usuario: ${userName}`)
     document.getElementById("userName").innerHTML=`<div class="titleLogin">Hasta la próxima ${userName}</div>`
  })
  .catch(error=>console.log(error))

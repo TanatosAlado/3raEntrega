@@ -22,7 +22,7 @@ const app = express();
 const httpserver = http(app)
 const io = new ioServer(httpserver)
 
-module.exports=class userMongoController {
+module.exports= loginControl, class userMongoController {
     constructor(collection, schema) {
         this.collection = mongoose.model(collection, schema);
     }
@@ -134,6 +134,6 @@ else{
   });
   
 
-  module.exports={
-    loginControl
-  }
+  // module.exports={
+  //   loginControl
+  // }
