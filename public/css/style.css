@@ -125,16 +125,36 @@ table,
     }
   }
 
+.fondo{
+    background-color: rgba(118, 159, 240, 0.8);
+    margin-top: 300px;
+    margin-left: 200px;
+    width: 400px;
+    height: 200px;
+    visibility: hidden;
+    position: absolute;
+    z-index: 2;
+}
+
+.despedida{
+    visibility: hidden;
+    margin-left: 150px;
+    margin-top: 75px;
+    position: absolute;
+    width: 200px;
+    z-index: 1;
+}
 
   .loader {
-    width: 148px;
-    height: 148px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     position: absolute;
-    margin-left: 250px;
-    margin-top: 250px;
-    
-    animation: rotate 1s linear infinite
+    margin-left: 25px;
+    margin-top: 25px;
+    visibility:hidden;
+    animation: rotate 1s linear infinite;
+    z-index: 1;
   }
   .loader::before , .loader::after {
     content: "";

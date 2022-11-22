@@ -8,7 +8,7 @@ const session =require("express-session")
 const MongoStore=require("connect-mongo");
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require("passport");
-const { comparePassword, hashPassword } = require("../../utils.js")
+const { comparePassword, hashPassword } = require("../services/utils.js")
 // const {connect} = require('./src/config/dbConfig.js');
 const { Types } = require("mongoose");
 
@@ -22,7 +22,7 @@ const app = express();
 const httpserver = http(app)
 const io = new ioServer(httpserver)
 
-module.exports= loginControl, class userMongoController {
+module.exports= class userMongoController {
     constructor(collection, schema) {
         this.collection = mongoose.model(collection, schema);
     }
@@ -42,17 +42,6 @@ passport.use("login", new LocalStrategy(async (mail, password, done) => {
   }
    return done(null, user);
  }));
-
-
- function loginControl(req, res){  
-  req.session.user = req.user;
-  res.render(path.resolve("views/pages/profile"),{status:'ok', user: req.session.user});
-};
-
-// routerUsuario.get("/login", (req, res) => {
-// res.sendFile(__dirname + "/views/login.html");
-// logger.log("info",`Ingreso a la ruta${req.url}`)
-// });
 
 
  //REGISTRO DE USUARIO
@@ -133,7 +122,3 @@ else{
     }
   });
   
-
-  // module.exports={
-  //   loginControl
-  // }

@@ -127,13 +127,18 @@ fetch ("/idCart")
 // const spinner = document.getElementById("spinner");
 // spinner.style.display = "none";
 
+const spinner = document.getElementById("loader")
+const despedida = document.getElementById("despedida")
+const fondo = document.getElementById("fondo")
 
 //logout con loading screen
 document.getElementById("logout").addEventListener
     ('click', (e) => {
         e.preventDefault()
         fetch("/logout")
-            // .then(spinner.style.display = "flex")
+            .then(spinner.style.visibility = "visible")
+            .then(despedida.style.visibility = "visible")
+            .then(fondo.style.visibility = "visible")
             .then(response => response.json())
             .finally(() => {
                 window.location.href = "/logoutMsj";
