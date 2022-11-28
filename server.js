@@ -16,7 +16,8 @@ const passport = require("passport");
 const { comparePassword, hashPassword } = require("./src/services/utils")
 const {connect} = require('./src/config/dbConfig.js');
 const { Types } = require("mongoose");
-const {saveMsjs, getMsjs, sendWhatsapp, sendMail, sendSms,deleteCartBuy}=require ("./src/controllers/mensajes.js")
+// const {saveMsjs, getMsjs, sendWhatsapp, sendMail, sendSms,deleteCartBuy}=require ("./src/controllers/mensajes.js")
+const {saveMsjs, getMsjs, sendWhatsapp, sendMail, sendSms,deleteCartBuy}=require ("./src/controllers/mongo/mensajes.js")
 const nodemailer= require('nodemailer');
 const { argv0 } = require("process");
 const { db } = require("./src/schema/schemaProducts.js");
@@ -79,7 +80,7 @@ if (modoCluster && cluster.isPrimary) {
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({
-      mongoUrl:process.env.URL_BD,
+      mongoUrl:process.env.DB,
       retries: 0,
       ttl: 10 * 60 ,
     }),

@@ -3,7 +3,14 @@ const { cartDao }= require("../dao/index.js")
 const { db } = require("../schema/schemaProducts.js");
 
 const routerCarrito = Router();
-const carrito=new cartDao;
+
+const Singleton = require("../services/singletonC")
+const carritos2=new cartDao;
+
+let singletonCarrito = Singleton.getInstance();
+singletonCarrito.crearCarritos(carritos2)
+const carrito = singletonCarrito.getCarritos()
+
 
 routerCarrito.
 route('/')
