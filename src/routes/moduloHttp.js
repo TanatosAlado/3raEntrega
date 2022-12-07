@@ -4,7 +4,7 @@ const resultado = ["hola", "chau"]
 
 const options = {
     hostname: 'localhost:8080',
-    port: 80,
+    port: 443,
     path: '/api/productos',
     method: 'GET'
 }

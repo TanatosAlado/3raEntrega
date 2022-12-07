@@ -1,46 +1,39 @@
-const chai=require('chai')
-const supertest=require('supertest')
-const expect=chai.expect
-const axios=require('axios')
-const URL='http://localhost:8000'
-const request=supertest(URL)
+const chai = require("chai");
+const supertest = require("supertest");
+const expect = chai.expect;
+const axios = require("axios");
+const url = "http://localhost:8080";
 
+const request = supertest(url);
 
+describe("Test Productos", () => {
+  let producto;
+  let productoNuevo;
+  beforeEach(() => {
+    producto = {
+      nombre: "Gran Enemigo",
+      precio: 7890,
+      foto: "gintest.png",
+      descripcion: "Un vino que apapacha el alma ",
+      stock: 6,
+      codigo: ene223,
+    };
+  });
 
+  it("getAllProds", async () => {
+    const response = await axios.get(`${url}/mongoproductos`);
+    expect(response.status).to.eql(200);
+    expect(response.data).to.be.an("array");
+    expect(response.data).to.not.be.undefined;
+  });
 
-describe('Test Productos',()=>{
-    let producto
-    let id
-    let productoNuevo
-    beforeEach(()=>{
-        producto={
-            title: "Camara Polaroid",
-            price: 4800,
-            image: "https://cdn2.iconfinder.com/data/icons/80-s-stuffs/63/Asset_38-256.png",
-            description: "Camara Polaroid original ",
-            stock: 8,
-            categoria:"Video"
-          }
+  it("Deberia agregar un nuevo prod", async () => {
+    const response = await axios.post(`${url}/mongoproductos`, producto);
 
-          id='638a7ec6620fdd9603328e14'
-
-          productoNuevo={
-            title: "Camara Polaroid",
-            price: 3200,
-            image: "https://cdn2.iconfinder.com/data/icons/80-s-stuffs/63/Asset_38-256.png",
-            description: "Camara Polaroid original ",
-            stock: 8,
-            categoria:"Video"
-          }
-
-    })
-     it('Traer todos los productos',async ()=>{
-        const response=await axios.get(`${URL}/productos`)
-        expect(response.status).to.eql(200)
-        expect(response.data).to.be.an('array')
-        expect(response.data).to.not.be.undefined
-    
-}) 
-
-
-})
+    const body = response.data;
+    expect(response.status).to.eql(200);
+    expect(body).to.include.keys('nombre', 'precio', 'foto', 'descripcion', 'stock', 'codigo');
+    expect(body.nombre).to.eql(producto.nombre)
+   
+  });
+});

@@ -36,7 +36,7 @@ const modhttp = require("./moduloHttp")
 routerProducto.
 route('/modulo')
 .get(async (req, res) => {
-    const product = await modhttp.traerLosDatos;
+    const product = await traerDatos()
     res.status(200).json(product);
 })
 // Fin codigo modulo HTTP
