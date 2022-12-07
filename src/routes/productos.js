@@ -9,6 +9,40 @@ pruebaSingleton.crearProductos(productos2)
 
 const productos = pruebaSingleton.getProductos()
 
+
+// Comienzo codigo AXIOS
+const axios = require("axios")
+
+async function traerDatos() {
+    try{
+        const response = await axios.get("http://localhost:8080/api/productos");
+        console.log(response.data);
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+routerProducto.
+route('/axios')
+.get(async (req, res) => {
+    const product = await traerDatos()
+    res.status(200).json(product);
+})
+// Fin codigo AXIOS
+
+// Comienzo codigo modulo HTTP
+const modhttp = require("./moduloHttp")
+
+routerProducto.
+route('/modulo')
+.get(async (req, res) => {
+    const product = await modhttp.traerLosDatos;
+    res.status(200).json(product);
+})
+// Fin codigo modulo HTTP
+
+
+
 routerProducto.
 route('/:id?')
 .get(async (req, res) => {
@@ -63,5 +97,7 @@ route('/:id?')
         res.status(404).json({ error: 'No existe producto con dicho ID' });
     }
 })
+
+
 
 module.exports= {routerProducto}

@@ -29,5 +29,8 @@
     "sweetalert2": "^11.4.34",
     "twilio": "^3.83.2",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "axios": "^1.2.0"
   }
 }
